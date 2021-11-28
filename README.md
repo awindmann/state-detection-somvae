@@ -1,4 +1,4 @@
-# State Detection with SOMVAE
+# State Detection with SOM-VAE
 
 * to generate data, run data/generate_data.py
 * to train SOM-VAE, run models/train_model.py
