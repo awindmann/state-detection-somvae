@@ -63,7 +63,8 @@ class ThreeTankSimulation:
         y_stop = y[-1, :]
         return y, y_stop
 
-    def _configuration_seq(self, cycle: list, nb_of_cycles: int, sd_q: float, sd_kv: float, sd_dur: float):
+    def _configuration_seq(self, cycle: list, nb_of_cycles: int,
+                           sd_q: float, sd_kv: float, sd_dur: float, leaky: bool):
         seq = list()
         for i in range(nb_of_cycles):
             for state in cycle:
@@ -78,19 +79,26 @@ class ThreeTankSimulation:
             q_noise = np.random.normal(0, sd_q, 2 * seq_len)
             seq_df_noise["q1"] = seq_df["q1"] + q_noise[:seq_len]
             seq_df_noise["q3"] = seq_df["q3"] + q_noise[seq_len:]
+            if not leaky:
+                seq_df_noise["q1"].where(seq_df["q1"] > 0, other=0, inplace=True)  # no leaky inflow
+                seq_df_noise["q3"].where(seq_df["q3"] > 0, other=0, inplace=True)
         if sd_kv is not None:
             kv_noise = np.random.normal(0, sd_kv, 3 * seq_len)
             seq_df_noise["kv1"] = seq_df["kv1"] + kv_noise[:seq_len]
             seq_df_noise["kv2"] = seq_df["kv2"] + kv_noise[seq_len:2*seq_len]
             seq_df_noise["kv3"] = seq_df["kv3"] + kv_noise[2*seq_len:]
+            if not leaky:
+                seq_df_noise["kv1"].where(seq_df["kv1"] > 0, other=0, inplace=True)  # no leaky valve
+                seq_df_noise["kv2"].where(seq_df["kv2"] > 0, other=0, inplace=True)
+                seq_df_noise["kv3"].where(seq_df["kv3"] > 0, other=0, inplace=True)
         if sd_dur is not None:
             dur_noise = np.random.normal(0, sd_dur, seq_len)
             seq_df_noise["duration"] = round(seq_df["duration"] + dur_noise).astype(int)
-        seq_df_noise = seq_df_noise.apply(lambda x: x * (x >= 0))  # no negative inflow etc.
+        seq_df_noise = seq_df_noise.where(seq_df_noise >= 0, 0)  # no negative inflow etc.
         return seq_df, seq_df_noise
 
     def simulate(self, cycle: list, nb_of_cycles: int = 10,
-                 sd_q: float = None, sd_kv: float = None, sd_dur: float = None,
+                 sd_q: float = None, sd_kv: float = None, sd_dur: float = None, leaky: bool = False,
                  export_path: str = None) -> np.array:
         """Simulates the dynamics in the three-tank system
         Args:
@@ -100,9 +108,10 @@ class ThreeTankSimulation:
             sd_q (float): if set, white noise with this standard deviation is added to the inflow
             sd_kv (float): if set, white noise with this standard deviation is added to the valve coefficients
             sd_dur (float): if set, white noise with this standard deviation is added to the duration
+            leaky (bool): add noise on closed valves or stopped inflow
             export_path (str): if set, save simulation data at export path
         """
-        seq_denoised, seq = self._configuration_seq(cycle, nb_of_cycles, sd_q, sd_kv, sd_dur)
+        seq_denoised, seq = self._configuration_seq(cycle, nb_of_cycles, sd_q, sd_kv, sd_dur, leaky)
 
         y_ls = []
         y_stop = self.tank_levels
@@ -116,8 +125,7 @@ class ThreeTankSimulation:
             y_df = pd.DataFrame(y_out, columns=['h1', 'h2', 'h3'])
             y_df.to_csv(export_path, index=False)
             seq_denoised.to_csv(export_path[:-4] + "_config.csv", index=False)
-            if sd_q or sd_kv or sd_dur:
-                seq.to_csv(export_path[:-4] + "_config_noise.csv")
+            seq.to_csv(export_path[:-4] + "_config_noise.csv")
         return y_out
 
 
