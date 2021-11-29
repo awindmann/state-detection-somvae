@@ -116,7 +116,8 @@ class ThreeTankSimulation:
             y_df = pd.DataFrame(y_out, columns=['h1', 'h2', 'h3'])
             y_df.to_csv(export_path, index=False)
             seq_denoised.to_csv(export_path[:-4] + "_config.csv", index=False)
-            seq.to_csv(export_path[:-4] + "_config_noise.csv")
+            if sd_q or sd_kv or sd_dur:
+                seq.to_csv(export_path[:-4] + "_config_noise.csv")
         return y_out
 
 

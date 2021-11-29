@@ -34,8 +34,7 @@ def plot_simulation(y: np.array):
 def plot_state_prediction(model, start_idx=None, stop_idx=None, step=1, title=None, width=500, height=400):
     """Plots section of data with a prediction of the underlying state."""
     # load data
-    df = pd.read_parquet("../data/processed/state_data.parquet",
-                         columns=['h1', 'h2', 'h3'])
+    df = pd.read_csv("../data/processed/state_data.csv")
 
     # default: plot section of test data
     if start_idx is None:
