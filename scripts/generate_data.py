@@ -130,7 +130,7 @@ def run():
 
     y = system.simulate(cycle=["fill", "rest", "mix"] * 3 + ["empty"],
                         nb_of_cycles=100,
-                        export_path="../datagen/data/solution_4_dataset.csv")
+                        export_path="../../data/solution_4_dataset.csv")
     plot_simulation(y)
 
 

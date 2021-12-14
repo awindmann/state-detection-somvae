@@ -35,7 +35,7 @@ def plot_simulation(y: np.array):
 def plot_state_prediction(model, start_idx=None, stop_idx=None, step=1, title=None, width=500, height=400):
     """Plots section of datagen with a prediction of the underlying state."""
     # load datagen
-    df = pd.read_csv("../datagen/data/solution_4_dataset.csv")
+    df = pd.read_csv("../../data/solution_4_dataset.csv")
 
     # default: plot section of test datagen
     if start_idx is None:
