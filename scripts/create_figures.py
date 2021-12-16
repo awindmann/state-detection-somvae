@@ -35,7 +35,7 @@ def plot_simulation(y: np.array):
 def plot_state_prediction(model, start_idx=None, stop_idx=None, step=1, title=None, width=500, height=400):
     """Plots section of datagen with a prediction of the underlying state."""
     # load datagen
-    df = pd.read_csv("../../data/solution_4_dataset.csv")
+    df = pd.read_csv("../data/processed/dataset.csv")
 
     # default: plot section of test datagen
     if start_idx is None:
@@ -43,7 +43,6 @@ def plot_state_prediction(model, start_idx=None, stop_idx=None, step=1, title=No
     if stop_idx is None:
         stop_idx = 2550
     df = df[start_idx:stop_idx]
-
 
     # get state prediction
     states = pd.DataFrame(index=df.index)
@@ -80,7 +79,7 @@ def plot_state_prediction(model, start_idx=None, stop_idx=None, step=1, title=No
     if title is not None:
         fig.update_layout(title=title)
 
-    pio.write_image(fig, f"../visualizations/figures/state-plot.pdf", width=width, height=height)
+    pio.write_image(fig, f"../visualizations/state-plot.pdf", width=width, height=height)
     fig.show()
 
 
