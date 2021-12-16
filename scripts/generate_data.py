@@ -92,7 +92,7 @@ class ThreeTankSimulation:
     def simulate(self, cycle: list, nb_of_cycles: int = 10,
                  sd_q: float = None, sd_kv: float = None, sd_dur: float = None, leaky: bool = False,
                  export_path: str = None) -> np.array:
-        """Simulates the dynamics in the three-tank system
+        """Simulates the dynamics in the three-tank system.
         Args:
             cycle (list): sequence of states that compose a typical cycle.
                           Either list of integers or list of state names.
@@ -116,8 +116,8 @@ class ThreeTankSimulation:
         if export_path is not None:
             y_df = pd.DataFrame(y_out, columns=['h1', 'h2', 'h3'])
             y_df.to_csv(export_path, index=False)
-            # seq_denoised.to_csv(export_path[:-4] + "_config.csv", index=False)
-            # seq.to_csv(export_path[:-4] + "_config_with_noise.csv")
+            seq_denoised.to_csv(export_path[:-4] + "_config.csv", index=False)
+            seq.to_csv(export_path[:-4] + "_config_with_noise.csv")
         return y_out
 
 
@@ -130,7 +130,7 @@ def run():
 
     y = system.simulate(cycle=["fill", "rest", "mix"] * 3 + ["empty"],
                         nb_of_cycles=100,
-                        export_path="../../data/solution_4_dataset.csv")
+                        export_path="../datagen/data/dataset.csv")
     plot_simulation(y)
 
 

@@ -15,8 +15,7 @@ class ThreeTankStateDataset(Dataset):
         self.start_idx = start_idx
         self.end_idx = end_idx
         self.ordered_samples = ordered_samples
-
-        self.df = pd.read_csv("../../data/solution_4_dataset.csv")
+        self.df = pd.read_csv("../datagen/data/dataset.csv")
 
         self.samples = self._create_samples()
 

@@ -5,7 +5,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, Ea
 
 import constants as const
 from datagen.datamodule import ThreeTankStateDataModule
-from models.som_vae.som_vae import SOMVAE
+from som_vae.som_vae import SOMVAE
 
 
 def train():

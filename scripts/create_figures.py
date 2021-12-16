@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 import plotly.io as pio
 
 import constants as const
-from models.som_vae.som_vae import SOMVAE
+from som_vae.som_vae import SOMVAE
 
 
 def plot_simulation(y: np.array):

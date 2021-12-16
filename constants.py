@@ -14,6 +14,4 @@ HPARAMS = dict(d_som=[2, 3],
                d_enc_dec=100,
                alpha=0.75,
                beta=2,
-               gamma=0,
-               tau=0
                )
