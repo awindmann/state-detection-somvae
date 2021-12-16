@@ -4,7 +4,7 @@ import pytorch_lightning as pl
 from torch.optim import Adam
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
-from som_vae.ffn import LinearDecoder, LinearEncoder
+from models.som_vae.ffn import LinearDecoder, LinearEncoder
 
 
 class SOMVAE(pl.LightningModule):

@@ -1,4 +1,3 @@
-import os
 import glob
 import numpy as np
 import pandas as pd
@@ -10,7 +9,7 @@ import plotly.graph_objects as go
 import plotly.io as pio
 
 import constants as const
-from som_vae.som_vae import SOMVAE
+from models.som_vae.som_vae import SOMVAE
 
 
 def plot_simulation(y: np.array):
@@ -54,7 +53,9 @@ def plot_state_prediction(model=None, start_idx=None, stop_idx=None, step=1,
                           title="Fill levels with predicted state", width=500, height=400):
     """Plots section of datagen with a prediction of the underlying state."""
     # load datagen
-    df = pd.read_csv("../data/processed/dataset.csv")
+    df = pd.read_csv("../datagen/data/dataset.csv")
+    if model is None:
+        model = load_model()
 
     # default: plot section of test datagen
     if start_idx is None:

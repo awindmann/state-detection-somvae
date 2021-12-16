@@ -3,8 +3,8 @@ from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor, EarlyStopping
 
 import constants as const
-from data.datamodule import ThreeTankStateDataModule
-from som_vae.som_vae import SOMVAE
+from datagen.datamodule import ThreeTankStateDataModule
+from models.som_vae.som_vae import SOMVAE
 
 
 def train():
